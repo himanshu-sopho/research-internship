@@ -1,20 +1,21 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 
 int count=0;	//variable to count the number of recursive calls made by the insert functions required for the detection of rehashing
 int hash=11;	//initially hash function uses 11 for modulo
 int n,k;
-
+ofstream outfile;
 void rehash(vector<vector<int> > &a,vector<int> &c);			//function to be called if infinite loop detected
 
 int insert_1(vector<vector<int> > &a,vector<int> &c,int number)		//first hash function
 {
 	if (count>(n*hash+1))						//check for infinite loop
 	{
-		cout << "Need to rehash" << endl;
+		outfile << "Need to rehash" << endl;
 		hash =hash * 2 ;			//doubles the hash value by 2 so that rehashing uses this hash value 
 		count=0; 
 		cout << "Hash-->" << hash << endl;	
@@ -72,7 +73,8 @@ cout << "The two hash tables are" << endl;
 
 int main()
 {
-	
+ 
+   outfile.open("afile.dat");
 	cout<< "Enter the number of hashtables";
 	cin >> n;									//no of hashtables
 	
@@ -98,6 +100,7 @@ int main()
 		case 1:
 			cout<<"Enter the number ";
 			cin>> number;
+			outfile<<number<<endl;
 			count=0;
 			c.push_back(number);					//ensures space optimality to some extent
 			k=0;
